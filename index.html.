@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Osebni proračun</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans p-6 max-w-7xl mx-auto">
+
+  <!-- Glava -->
+  <header class="flex justify-between items-center mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Osebni proračun</h1>
+      <p class="text-gray-500 text-sm">Preprosto sledi prihodkom, stroškom in prihrankom.</p>
+    </div>
+    <div class="flex items-center gap-4 text-sm font-semibold">
+      <button class="text-gray-400">&lt;</button>
+      <span>Avgust 2026</span>
+      <button class="text-gray-400">&gt;</button>
+    </div>
+  </header>
+
+  <!-- KPI Kartice -->
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+      <div class="flex justify-between text-xs text-gray-500 mb-2">Prihodek <i class="fa-solid font-bold text-emerald-500 fa-wallet bg-emerald-50 p-1.5 rounded-full"></i></div>
+      <div class="text-xl font-bold" id="prihodek">2000,00 €</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+      <div class="flex justify-between text-xs text-gray-500 mb-2">Fiksni stroški <i class="fa-solid text-amber-500 fa-house bg-amber-50 p-1.5 rounded-full"></i></div>
+      <div class="text-xl font-bold" id="fiksni">497,48 €</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+      <div class="flex justify-between text-xs text-gray-500 mb-2">Poraba <i class="fa-solid text-rose-500 fa-chart-line-down bg-rose-50 p-1.5 rounded-full"></i></div>
+      <div class="text-xl font-bold" id="poraba">0,00 €</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+      <div class="flex justify-between text-xs text-gray-500 mb-2">Prihranek <i class="fa-solid text-sky-500 fa-piggy-bank bg-sky-50 p-1.5 rounded-full"></i></div>
+      <div class="text-xl font-bold" id="prihranek">1502,52 €</div>
+      <div class="text-xs text-gray-400 mt-1">75 % prihodka</div>
+    </div>
+    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+      <div class="flex justify-between text-xs text-gray-500 mb-2">8 % varčevanje <i class="fa-solid text-indigo-500 fa-building-columns bg-indigo-50 p-1.5 rounded-full"></i></div>
+      <div class="text-xl font-bold" id="varcevanje">160,00 €</div>
+      <div class="text-xs text-gray-400 mt-1">na varčevalni račun</div>
+    </div>
+  </div>
+
+  <!-- Gumbi in vsebina -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 space-y-6">
+      <div class="flex gap-2">
+        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium">Kartica</button>
+        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium">Gotovina</button>
+        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium">Fiksni</button>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px] flex flex-col justify-between">
+        <h3 class="font-semibold text-sm text-gray-700">Plačila s kartico</h3>
+        <p class="text-center text-gray-400 text-sm my-auto">V tem ciklu še ni plačil s kartico.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px] flex flex-col justify-between">
+        <h3 class="font-semibold text-sm text-gray-700">Dvigi gotovine</h3>
+        <p class="text-center text-gray-400 text-sm my-auto">V tem ciklu še ni dvigov gotovine.</p>
+      </div>
+    </div>
+
+    <!-- Desni stolpec -->
+    <div class="space-y-6">
+      <button class="w-full bg-slate-900 text-white font-medium py-2.5 rounded-xl shadow">+ Prihodek</button>
+
+      <!-- Tedenski budget -->
+      <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100 space-y-4">
+        <div class="flex justify-between items-center text-xs text-gray-600">
+          <span>Tedenski budget</span>
+          <span class="bg-white px-2 py-0.5 rounded shadow-sm text-gray-500">Dan plače: 16.</span>
+        </div>
+        <div>
+          <div class="text-2xl font-bold text-gray-900">335,63 €</div>
+          <p class="text-xs text-gray-500 mt-1">Naslednji dvig: pet, 28. avg.</p>
+        </div>
+        <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+          <div class="bg-indigo-600 h-full w-[0%]"></div>
+        </div>
+        <div class="flex justify-between text-xs text-gray-500 font-medium">
+          <span>Porabljeno: 0,00 €</span>
+          <span>Ostane: 1342,52 €</span>
+        </div>
+      </div>
+
+      <!-- Fiksni stroški seznam -->
+      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+        <h3 class="font-semibold text-sm text-gray-700 mb-4">Fiksni stroški</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex justify-between items-center">
+            <span>Kredit</span>
+            <span class="font-semibold">-130,00 €</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Kreditna kartica</span>
+            <span class="font-semibold">-120,00 €</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Stroški doma</span>
+            <span class="font-semibold">-180,00 €</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>Telefon</span>
+            <span class="font-semibold">-67,48 €</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
