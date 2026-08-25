@@ -9,151 +9,147 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans p-6 max-w-7xl mx-auto">
 
-  <!-- Glava z izbiro meseca in leta -->
-  <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-    <div>
-      <h1 class="text-2xl font-bold">Osebni proračun</h1>
-      <p class="text-gray-500 text-sm">Preprosto sledi prihodkom, stroškom in prihrankom.</p>
-    </div>
-    <div class="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm text-sm font-semibold">
-      <select id="izbira-mesec" onchange="spemeniDatum()" class="bg-transparent p-1 focus:outline-none cursor-pointer">
-        <option value="0">Januar</option>
-        <option value="1">Februar</option>
-        <option value="2">Marec</option>
-        <option value="3">April</option>
-        <option value="4">Maj</option>
-        <option value="5">Junij</option>
-        <option value="6">Julij</option>
-        <option value="7" selected>Avgust</option>
-        <option value="8">September</option>
-        <option value="9">Oktober</option>
-        <option value="10">November</option>
-        <option value="11">December</option>
-      </select>
-      <select id="izbira-leto" onchange="spemeniDatum()" class="bg-transparent p-1 focus:outline-none cursor-pointer border-l border-gray-200 pl-2">
-        <option value="2024">2024</option>
-        <option value="2025">2025</option>
-        <option value="2026" selected>2026</option>
-        <option value="2027">2027</option>
-        <option value="2028">2028</option>
-      </select>
-    </div>
-  </header>
-
-  <!-- KPI Kartice -->
-  <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">
-        Prihodek 
-        <i class="fa-solid font-bold text-emerald-500 fa-wallet bg-emerald-50 p-1.5 rounded-full"></i>
+  <!-- OKNO ZA PRIJAVO -->
+  <div id="login-modal" class="fixed inset-0 bg-slate-900 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center">
+      <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-user-lock"></i>
       </div>
-      <div class="text-xl font-bold" id="kpi-prihodek">0,00 €</div>
-    </div>
-    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">
-        Fiksni stroški 
-        <i class="fa-solid text-amber-500 fa-house bg-amber-50 p-1.5 rounded-full"></i>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Prijava v proračun</h2>
+        <p class="text-xs text-gray-500 mt-1">Vnesite svoje ime ali geslo za dostop</p>
       </div>
-      <div class="text-xl font-bold" id="kpi-fiksni">0,00 €</div>
-    </div>
-    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">
-        Poraba 
-        <i class="fa-solid text-rose-500 fa-chart-line-down bg-rose-50 p-1.5 rounded-full"></i>
-      </div>
-      <div class="text-xl font-bold" id="kpi-poraba">0,00 €</div>
-    </div>
-    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">
-        Prihranek 
-        <i class="fa-solid text-sky-500 fa-piggy-bank bg-sky-50 p-1.5 rounded-full"></i>
-      </div>
-      <div class="text-xl font-bold" id="kpi-prihranek">0,00 €</div>
-      <div class="text-xs text-gray-400 mt-1" id="kpi-prihranek-pct">0 % prihodka</div>
-    </div>
-    <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">
-        8 % varčevanje 
-        <i class="fa-solid text-indigo-500 fa-building-columns bg-indigo-50 p-1.5 rounded-full"></i>
-      </div>
-      <div class="text-xl font-bold" id="kpi-varcevanje">0,00 €</div>
-      <div class="text-xs text-gray-400 mt-1">na varčevalni račun</div>
+      <form onsubmit="prijaviUporabnika(event)" class="space-y-3">
+        <input type="text" id="username-input" placeholder="Uporabniško ime" required class="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none text-sm text-center font-semibold">
+        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl text-sm transition">Vstopi</button>
+      </form>
     </div>
   </div>
 
-  <!-- Glavni deli -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 space-y-6">
-
-      <!-- ENOTNI GUMBI ZA DODAJANJE -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <button onclick="openVnosModal('kartica')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition">
-          <i class="fa-regular fa-credit-card text-rose-500 text-base"></i> Kartica
-        </button>
-        <button onclick="openVnosModal('gotovina')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition">
-          <i class="fa-solid fa-money-bill-wave text-indigo-500 text-base"></i> Gotovina
-        </button>
-        <button onclick="openVnosModal('fiksni')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition">
-          <i class="fa-solid fa-piggy-bank text-amber-500 text-base"></i> Fiksni stroški
-        </button>
-        <button onclick="openVnosModal('prihodek')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition">
-          <i class="fa-solid fa-plus text-emerald-600 text-base"></i> Prihodek
-        </button>
+  <!-- GLAVNA APLIKACIJA (SKRITA DOKLER NI PRIJAVE) -->
+  <div id="app-content" class="hidden">
+    
+    <!-- Glava -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-bold">Osebni proračun</h1>
+        <p class="text-gray-500 text-sm">Uporabnik: <span id="prikaz-uporabnika" class="font-semibold text-gray-700"></span> 
+          <button onclick="odjava()" class="text-xs text-rose-500 hover:underline ml-2">(Odjava)</button>
+        </p>
       </div>
 
-      <!-- Plačila s kartico -->
-      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px]">
-        <h3 class="font-semibold text-sm text-gray-700 mb-3">Plačila s kartico</h3>
-        <div id="seznam-kartica" class="space-y-2 text-sm text-gray-600">
-          <p class="text-center text-gray-400 my-4">V tem ciklu še ni plačil s kartico.</p>
-        </div>
+      <!-- Izbira meseca in leta -->
+      <div class="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm text-sm font-semibold">
+        <select id="izbira-mesec" onchange="zamenjajObdobje()" class="bg-transparent p-1 focus:outline-none cursor-pointer">
+          <option value="0">Januar</option>
+          <option value="1">Februar</option>
+          <option value="2">Marec</option>
+          <option value="3">April</option>
+          <option value="4">Maj</option>
+          <option value="5">Junij</option>
+          <option value="6">Julij</option>
+          <option value="7">Avgust</option>
+          <option value="8">September</option>
+          <option value="9">Oktober</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+        </select>
+        <select id="izbira-leto" onchange="zamenjajObdobje()" class="bg-transparent p-1 focus:outline-none cursor-pointer border-l border-gray-200 pl-2">
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026">2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+        </select>
       </div>
+    </header>
 
-      <!-- Dvigi gotovine -->
-      <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px]">
-        <h3 class="font-semibold text-sm text-gray-700 mb-3">Dvigi gotovine</h3>
-        <div id="seznam-gotovina" class="space-y-2 text-sm text-gray-600">
-          <p class="text-center text-gray-400 my-4">V tem ciklu še ni dvigov gotovine.</p>
-        </div>
+    <!-- KPI Kartice -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">Prihodek <i class="fa-solid font-bold text-emerald-500 fa-wallet bg-emerald-50 p-1.5 rounded-full"></i></div>
+        <div class="text-xl font-bold" id="kpi-prihodek">0,00 €</div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">Fiksni stroški <i class="fa-solid text-amber-500 fa-house bg-amber-50 p-1.5 rounded-full"></i></div>
+        <div class="text-xl font-bold" id="kpi-fiksni">0,00 €</div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">Poraba <i class="fa-solid text-rose-500 fa-chart-line-down bg-rose-50 p-1.5 rounded-full"></i></div>
+        <div class="text-xl font-bold" id="kpi-poraba">0,00 €</div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">Prihranek <i class="fa-solid text-sky-500 fa-piggy-bank bg-sky-50 p-1.5 rounded-full"></i></div>
+        <div class="text-xl font-bold" id="kpi-prihranek">0,00 €</div>
+        <div class="text-xs text-gray-400 mt-1" id="kpi-prihranek-pct">0 % prihodka</div>
+      </div>
+      <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">8 % varčevanje <i class="fa-solid text-indigo-500 fa-building-columns bg-indigo-50 p-1.5 rounded-full"></i></div>
+        <div class="text-xl font-bold" id="kpi-varcevanje">0,00 €</div>
+        <div class="text-xs text-gray-400 mt-1">na varčevalni račun</div>
       </div>
     </div>
 
-    <!-- Desni stolpec -->
-    <div class="space-y-6">
+    <!-- Glavni deli -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 space-y-6">
 
-      <!-- Tedenski budget z opcijo 4 ali 5 dvigov -->
-      <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100 space-y-4">
-        <div class="flex justify-between items-center text-xs text-gray-600">
-          <span>Tedenski budget</span>
-          <div class="flex items-center gap-1 bg-white px-2 py-0.5 rounded-lg border border-indigo-100 text-xs font-medium">
-            <label for="stevilo-dvigov" class="text-gray-500">Št. dvigov:</label>
-            <select id="stevilo-dvigov" onchange="spemeniSteviloDvigov()" class="bg-transparent focus:outline-none font-bold text-indigo-600 cursor-pointer">
-              <option value="4">4x</option>
-              <option value="5">5x</option>
-            </select>
-          </div>
+        <!-- Gumbi za dodajanje -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <button onclick="openVnosModal('kartica')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition"><i class="fa-regular fa-credit-card text-rose-500"></i> Kartica</button>
+          <button onclick="openVnosModal('gotovina')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition"><i class="fa-solid fa-money-bill-wave text-indigo-500"></i> Gotovina</button>
+          <button onclick="openVnosModal('fiksni')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition"><i class="fa-solid fa-piggy-bank text-amber-500"></i> Fiksni</button>
+          <button onclick="openVnosModal('prihodek')" class="flex items-center justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200 shadow-sm py-3 px-4 rounded-2xl font-semibold text-sm text-gray-800 transition"><i class="fa-solid fa-plus text-emerald-600"></i> Prihodek</button>
         </div>
-        <div>
-          <div class="text-2xl font-bold text-gray-900" id="tedenski-budget">0,00 €</div>
-          <p class="text-xs text-gray-500 mt-1" id="opis-dviga">Razpoložljivo na posamezen dvig</p>
+
+        <!-- Plačila s kartico -->
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px]">
+          <h3 class="font-semibold text-sm text-gray-700 mb-3">Plačila s kartico</h3>
+          <div id="seznam-kartica" class="space-y-2 text-sm text-gray-600"><p class="text-center text-gray-400 my-4">V tem ciklu še ni plačil s kartico.</p></div>
         </div>
-        <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
-          <div class="bg-indigo-600 h-full w-[0%]" id="progress-bar"></div>
-        </div>
-        <div class="flex justify-between text-xs text-gray-500 font-medium">
-          <span id="porabljeno-text">Porabljeno: 0,00 €</span>
-          <span id="ostane-text">Ostane: 0,00 €</span>
+
+        <!-- Dvigi gotovine -->
+        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px]">
+          <h3 class="font-semibold text-sm text-gray-700 mb-3">Dvigi gotovine</h3>
+          <div id="seznam-gotovina" class="space-y-2 text-sm text-gray-600"><p class="text-center text-gray-400 my-4">V tem ciklu še ni dvigov gotovine.</p></div>
         </div>
       </div>
 
-      <!-- Fiksni stroški seznam -->
-      <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-semibold text-sm text-gray-700">Fiksni stroški</h3>
-          <button onclick="openVnosModal('fiksni')" class="text-xs text-indigo-600 hover:underline font-semibold">+ Dodaj</button>
+      <!-- Desni stolpec -->
+      <div class="space-y-6">
+
+        <!-- Tedenski budget -->
+        <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100 space-y-4">
+          <div class="flex justify-between items-center text-xs text-gray-600">
+            <span>Tedenski budget</span>
+            <div class="flex items-center gap-1 bg-white px-2 py-0.5 rounded-lg border border-indigo-100 text-xs font-medium">
+              <label for="stevilo-dvigov" class="text-gray-500">Št. dvigov:</label>
+              <select id="stevilo-dvigov" onchange="spemeniSteviloDvigov()" class="bg-transparent focus:outline-none font-bold text-indigo-600 cursor-pointer">
+                <option value="4">4x</option>
+                <option value="5">5x</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-gray-900" id="tedenski-budget">0,00 €</div>
+            <p class="text-xs text-gray-500 mt-1" id="opis-dviga">Razpoložljivo na posamezen dvig</p>
+          </div>
+          <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-indigo-600 h-full w-[0%]" id="progress-bar"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500 font-medium">
+            <span id="porabljeno-text">Porabljeno: 0,00 €</span>
+            <span id="ostane-text">Ostane: 0,00 €</span>
+          </div>
         </div>
-        <div id="seznam-fiksni" class="space-y-3 text-sm">
-          <p class="text-gray-400 text-xs text-center py-2">Še ni dodanih fiksnih stroškov.</p>
+
+        <!-- Fiksni stroški -->
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-semibold text-sm text-gray-700">Fiksni stroški</h3>
+            <button onclick="openVnosModal('fiksni')" class="text-xs text-indigo-600 hover:underline font-semibold">+ Dodaj</button>
+          </div>
+          <div id="seznam-fiksni" class="space-y-3 text-sm"><p class="text-gray-400 text-xs text-center py-2">Še ni dodanih fiksnih stroškov.</p></div>
         </div>
       </div>
     </div>
@@ -162,30 +158,16 @@
   <!-- POPUP MODAL ZA NOV VNOS -->
   <div id="vnos-modal" class="fixed inset-0 bg-black/40 hidden items-center justify-center p-4 z-50">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative space-y-5">
-      
-      <button onclick="closeVnosModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
+      <button onclick="closeVnosModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
       <h3 class="text-xl font-bold text-center text-gray-900">Nov vnos</h3>
 
-      <!-- Tip vnosa gumbi -->
       <div class="grid grid-cols-2 gap-2">
-        <button type="button" onclick="selectTip('kartica')" id="btn-kartica" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2">
-          <i class="fa-regular fa-credit-card text-rose-500"></i> Kartica
-        </button>
-        <button type="button" onclick="selectTip('gotovina')" id="btn-gotovina" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2">
-          <i class="fa-solid fa-money-bill-wave text-indigo-500"></i> Gotovina
-        </button>
-        <button type="button" onclick="selectTip('fiksni')" id="btn-fiksni" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2">
-          <i class="fa-solid fa-piggy-bank text-amber-500"></i> Fiksni
-        </button>
-        <button type="button" onclick="selectTip('prihodek')" id="btn-prihodek" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2">
-          <i class="fa-solid fa-plus text-emerald-600"></i> Prihodek
-        </button>
+        <button type="button" onclick="selectTip('kartica')" id="btn-kartica" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2"><i class="fa-regular fa-credit-card text-rose-500"></i> Kartica</button>
+        <button type="button" onclick="selectTip('gotovina')" id="btn-gotovina" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2"><i class="fa-solid fa-money-bill-wave text-indigo-500"></i> Gotovina</button>
+        <button type="button" onclick="selectTip('fiksni')" id="btn-fiksni" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2"><i class="fa-solid fa-piggy-bank text-amber-500"></i> Fiksni</button>
+        <button type="button" onclick="selectTip('prihodek')" id="btn-prihodek" class="tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2"><i class="fa-solid fa-plus text-emerald-600"></i> Prihodek</button>
       </div>
 
-      <!-- Vnosna polja -->
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Znesek (€)</label>
@@ -206,21 +188,75 @@
         <button onclick="saveVnos()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl text-sm transition">Shrani</button>
         <button onclick="closeVnosModal()" class="w-full text-center text-sm font-medium text-gray-600 hover:text-gray-900 py-1">Prekliči</button>
       </div>
-
     </div>
   </div>
 
   <!-- JAVASCRIPT LOGIKA -->
   <script>
-    let podatki = JSON.parse(localStorage.getItem('proracunData')) || {
-      prihodki: [],
-      fiksniStroski: [],
-      kartica: [],
-      gotovina: [],
-      steviloDvigov: 4
-    };
-
+    let trenutniUporabnik = localStorage.getItem('aktivniUporabnik') || '';
+    let trenutnoLeto = new Date().getFullYear();
+    let trenutniMesec = new Date().getMonth();
     let izbranTip = 'prihodek';
+    let podatki = { prihodki: [], fiksniStroski: [], kartica: [], gotovina: [], steviloDvigov: 4 };
+
+    function init() {
+      if (trenutniUporabnik) {
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('app-content').classList.remove('hidden');
+        document.getElementById('prikaz-uporabnika').innerText = trenutniUporabnik;
+        
+        document.getElementById('izbira-leto').value = trenutnoLeto;
+        document.getElementById('izbira-mesec').value = trenutniMesec;
+        
+        naloziPodatkeObdobja();
+      } else {
+        document.getElementById('login-modal').classList.remove('hidden');
+        document.getElementById('app-content').classList.add('hidden');
+      }
+    }
+
+    function prijaviUporabnika(e) {
+      e.preventDefault();
+      let inputUser = document.getElementById('username-input').value.trim();
+      if (inputUser) {
+        trenutniUporabnik = inputUser;
+        localStorage.setItem('aktivniUporabnik', trenutniUporabnik);
+        init();
+      }
+    }
+
+    function odjava() {
+      localStorage.removeItem('aktivniUporabnik');
+      trenutniUporabnik = '';
+      init();
+    }
+
+    function vrniKljucShrambe() {
+      let leto = document.getElementById('izbira-leto').value;
+      let mesec = document.getElementById('izbira-mesec').value;
+      return `proracun_${trenutniUporabnik}_${leto}_${mesec}`;
+    }
+
+    function naloziPodatkeObdobja() {
+      let kljuc = vrniKljucShrambe();
+      let shranjeno = localStorage.getItem(kljuc);
+      
+      if (shranjeno) {
+        podatki = JSON.parse(shranjeno);
+      } else {
+        podatki = { prihodki: [], fiksniStroski: [], kartica: [], gotovina: [], steviloDvigov: 4 };
+      }
+      izracunajVse();
+    }
+
+    function zamenjajObdobje() {
+      naloziPodatkeObdobja();
+    }
+
+    function shraniPodatkeObdobja() {
+      let kljuc = vrniKljucShrambe();
+      localStorage.setItem(kljuc, JSON.stringify(podatki));
+    }
 
     function formatEUR(val) {
       return val.toLocaleString('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
@@ -244,7 +280,6 @@
       let tedenskiBudget = razpolozljivaPoraba > 0 ? razpolozljivaPoraba / stDvigov : 0;
       let ostaneZaPorabo = razpolozljivaPoraba - skupajPoraba;
 
-      // Osveži KPI kartice
       document.getElementById('kpi-prihodek').innerText = formatEUR(skupajPrihodek);
       document.getElementById('kpi-fiksni').innerText = formatEUR(skupajFiksni);
       document.getElementById('kpi-poraba').innerText = formatEUR(skupajPoraba);
@@ -261,76 +296,54 @@
     }
 
     function osveziSezname() {
-      // Fiksni stroški
       const elFiksni = document.getElementById('seznam-fiksni');
-      if (podatki.fiksniStroski.length === 0) {
-        elFiksni.innerHTML = '<p class="text-gray-400 text-xs text-center py-2">Še ni dodanih fiksnih stroškov.</p>';
-      } else {
-        elFiksni.innerHTML = podatki.fiksniStroski.map((item, idx) => `
+      elFiksni.innerHTML = podatki.fiksniStroski.length === 0 
+        ? '<p class="text-gray-400 text-xs text-center py-2">Še ni dodanih fiksnih stroškov.</p>'
+        : podatki.fiksniStroski.map((item, idx) => `
           <div class="flex justify-between items-center text-sm">
             <span>${item.opis || 'Fiksni strošek'}</span>
             <div class="flex items-center gap-2">
               <span class="font-semibold text-rose-600">-${formatEUR(item.znesek)}</span>
               <button onclick="izbrisiVnos('fiksniStroski', ${idx})" class="text-gray-300 hover:text-rose-500 text-xs"><i class="fa-solid fa-trash"></i></button>
             </div>
-          </div>
-        `).join('');
-      }
+          </div>`).join('');
 
-      // Kartica
       const elKartica = document.getElementById('seznam-kartica');
-      if (podatki.kartica.length === 0) {
-        elKartica.innerHTML = '<p class="text-center text-gray-400 my-4">V tem ciklu še ni plačil s kartico.</p>';
-      } else {
-        elKartica.innerHTML = podatki.kartica.map((item, idx) => `
+      elKartica.innerHTML = podatki.kartica.length === 0 
+        ? '<p class="text-center text-gray-400 my-4">V tem ciklu še ni plačil s kartico.</p>'
+        : podatki.kartica.map((item, idx) => `
           <div class="flex justify-between items-center py-1.5 border-b border-gray-50">
-            <div>
-              <div class="font-medium text-gray-800">${item.opis || 'Plačilo s kartico'}</div>
-              <div class="text-xs text-gray-400">${item.datum}</div>
-            </div>
+            <div><div class="font-medium text-gray-800">${item.opis || 'Plačilo s kartico'}</div><div class="text-xs text-gray-400">${item.datum}</div></div>
             <div class="flex items-center gap-2">
               <span class="font-semibold text-gray-900">-${formatEUR(item.znesek)}</span>
               <button onclick="izbrisiVnos('kartica', ${idx})" class="text-gray-300 hover:text-rose-500 text-xs"><i class="fa-solid fa-trash"></i></button>
             </div>
-          </div>
-        `).join('');
-      }
+          </div>`).join('');
 
-      // Gotovina
       const elGotovina = document.getElementById('seznam-gotovina');
-      if (podatki.gotovina.length === 0) {
-        elGotovina.innerHTML = '<p class="text-center text-gray-400 my-4">V tem ciklu še ni dvigov gotovine.</p>';
-      } else {
-        elGotovina.innerHTML = podatki.gotovina.map((item, idx) => `
+      elGotovina.innerHTML = podatki.gotovina.length === 0 
+        ? '<p class="text-center text-gray-400 my-4">V tem ciklu še ni dvigov gotovine.</p>'
+        : podatki.gotovina.map((item, idx) => `
           <div class="flex justify-between items-center py-1.5 border-b border-gray-50">
-            <div>
-              <div class="font-medium text-gray-800">${item.opis || 'Dvig gotovine'}</div>
-              <div class="text-xs text-gray-400">${item.datum}</div>
-            </div>
+            <div><div class="font-medium text-gray-800">${item.opis || 'Dvig gotovine'}</div><div class="text-xs text-gray-400">${item.datum}</div></div>
             <div class="flex items-center gap-2">
               <span class="font-semibold text-gray-900">-${formatEUR(item.znesek)}</span>
               <button onclick="izbrisiVnos('gotovina', ${idx})" class="text-gray-300 hover:text-rose-500 text-xs"><i class="fa-solid fa-trash"></i></button>
             </div>
-          </div>
-        `).join('');
-      }
+          </div>`).join('');
     }
 
     function spremeniSteviloDvigov() {
       podatki.steviloDvigov = document.getElementById('stevilo-dvigov').value;
-      localStorage.setItem('proracunData', JSON.stringify(podatki));
+      shraniPodatkeObdobja();
       izracunajVse();
     }
 
     function selectTip(tip) {
       izbranTip = tip;
-      document.querySelectorAll('.tip-btn').forEach(btn => {
-        btn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-white text-gray-700 border-gray-200';
-      });
+      document.querySelectorAll('.tip-btn').forEach(btn => btn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-white text-gray-700 border-gray-200');
       const activeBtn = document.getElementById('btn-' + tip);
-      if (activeBtn) {
-        activeBtn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-slate-900 text-white border-slate-900';
-      }
+      if (activeBtn) activeBtn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-slate-900 text-white border-slate-900';
     }
 
     function openVnosModal(tip = 'prihodek') {
@@ -338,7 +351,6 @@
       document.getElementById('vnos-datum').value = new Date().toISOString().split('T')[0];
       document.getElementById('vnos-znesek').value = '';
       document.getElementById('vnos-opis').value = '';
-
       document.getElementById('vnos-modal').classList.remove('hidden');
       document.getElementById('vnos-modal').classList.add('flex');
     }
@@ -365,18 +377,18 @@
       else if (izbranTip === 'kartica') podatki.kartica.push(novVnos);
       else if (izbranTip === 'gotovina') podatki.gotovina.push(novVnos);
 
-      localStorage.setItem('proracunData', JSON.stringify(podatki));
+      shraniPodatkeObdobja();
       izracunajVse();
       closeVnosModal();
     }
 
     function izbrisiVnos(kategorija, idx) {
       podatki[kategorija].splice(idx, 1);
-      localStorage.setItem('proracunData', JSON.stringify(podatki));
+      shraniPodatkeObdobja();
       izracunajVse();
     }
 
-    izracunajVse();
+    init();
   </script>
 
 </body>
