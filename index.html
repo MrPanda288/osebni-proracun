@@ -345,20 +345,35 @@ function izracunajVse() {
     }
 
     function selectTip(tip) {
-      izbranTip = tip;
-      document.querySelectorAll('.tip-btn').forEach(btn => btn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-white text-gray-700 border-gray-200');
-      const activeBtn = document.getElementById('btn-' + tip);
-      if (activeBtn) activeBtn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-slate-900 text-white border-slate-900';
-    }
+  izbranTip = tip;
+  
+  // Ponastavimo razrede na vseh gumbih za tip
+  document.querySelectorAll('.tip-btn').forEach(btn => {
+    btn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-white text-gray-700 border-gray-200';
+  });
+  
+  // Osvetlimo izbrani gumb
+  const activeBtn = document.getElementById('btn-' + tip);
+  if (activeBtn) {
+    activeBtn.className = 'tip-btn border rounded-xl py-2 px-3 text-xs font-semibold flex items-center justify-center gap-2 bg-slate-900 text-white border-slate-900';
+  }
+}
 
-    function openVnosModal(tip = 'prihodek') {
-      selectTip(tip);
-      document.getElementById('vnos-datum').value = new Date().toISOString().split('T')[0];
-      document.getElementById('vnos-znesek').value = '';
-      document.getElementById('vnos-opis').value = '';
-      document.getElementById('vnos-modal').classList.remove('hidden');
-      document.getElementById('vnos-modal').classList.add('flex');
-    }
+function openVnosModal(tip = 'prihodek') {
+  // Ponastavimo polja za vnos
+  const danasnjiDatum = new Date().toISOString().split('T')[0];
+  document.getElementById('vnos-datum').value = danasnjiDatum;
+  document.getElementById('vnos-znesek').value = '';
+  document.getElementById('vnos-opis').value = '';
+  
+  // Izberemo tip vnosa
+  selectTip(tip);
+  
+  // Prikažemo okno
+  const modal = document.getElementById('vnos-modal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
 
     function closeVnosModal() {
       document.getElementById('vnos-modal').classList.add('hidden');
