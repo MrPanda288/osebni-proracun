@@ -16,34 +16,49 @@
       <p class="text-gray-500 text-sm">Preprosto sledi prihodkom, stroškom in prihrankom.</p>
     </div>
     <div class="flex items-center gap-4 text-sm font-semibold">
-      <button class="text-gray-400">&lt;</button>
+      <button class="text-gray-400 hover:text-gray-600">&lt;</button>
       <span>Avgust 2026</span>
-      <button class="text-gray-400">&gt;</button>
+      <button class="text-gray-400 hover:text-gray-600">&gt;</button>
     </div>
   </header>
 
   <!-- KPI Kartice -->
   <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">Prihodek <i class="fa-solid font-bold text-emerald-500 fa-wallet bg-emerald-50 p-1.5 rounded-full"></i></div>
-      <div class="text-xl font-bold" id="prihodek">2000,00 €</div>
+      <div class="flex justify-between text-xs text-gray-500 mb-2">
+        Prihodek 
+        <i class="fa-solid font-bold text-emerald-500 fa-wallet bg-emerald-50 p-1.5 rounded-full"></i>
+      </div>
+      <div class="text-xl font-bold" id="kpi-prihodek">2.000,00 €</div>
     </div>
     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">Fiksni stroški <i class="fa-solid text-amber-500 fa-house bg-amber-50 p-1.5 rounded-full"></i></div>
-      <div class="text-xl font-bold" id="fiksni">497,48 €</div>
+      <div class="flex justify-between text-xs text-gray-500 mb-2">
+        Fiksni stroški 
+        <i class="fa-solid text-amber-500 fa-house bg-amber-50 p-1.5 rounded-full"></i>
+      </div>
+      <div class="text-xl font-bold" id="kpi-fiksni">497,48 €</div>
     </div>
     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">Poraba <i class="fa-solid text-rose-500 fa-chart-line-down bg-rose-50 p-1.5 rounded-full"></i></div>
-      <div class="text-xl font-bold" id="poraba">0,00 €</div>
+      <div class="flex justify-between text-xs text-gray-500 mb-2">
+        Poraba 
+        <i class="fa-solid text-rose-500 fa-chart-line-down bg-rose-50 p-1.5 rounded-full"></i>
+      </div>
+      <div class="text-xl font-bold" id="kpi-poraba">0,00 €</div>
     </div>
     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">Prihranek <i class="fa-solid text-sky-500 fa-piggy-bank bg-sky-50 p-1.5 rounded-full"></i></div>
-      <div class="text-xl font-bold" id="prihranek">1502,52 €</div>
-      <div class="text-xs text-gray-400 mt-1">75 % prihodka</div>
+      <div class="flex justify-between text-xs text-gray-500 mb-2">
+        Prihranek 
+        <i class="fa-solid text-sky-500 fa-piggy-bank bg-sky-50 p-1.5 rounded-full"></i>
+      </div>
+      <div class="text-xl font-bold" id="kpi-prihranek">1.502,52 €</div>
+      <div class="text-xs text-gray-400 mt-1" id="kpi-prihranek-pct">75 % prihodka</div>
     </div>
     <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-      <div class="flex justify-between text-xs text-gray-500 mb-2">8 % varčevanje <i class="fa-solid text-indigo-500 fa-building-columns bg-indigo-50 p-1.5 rounded-full"></i></div>
-      <div class="text-xl font-bold" id="varcevanje">160,00 €</div>
+      <div class="flex justify-between text-xs text-gray-500 mb-2">
+        8 % varčevanje 
+        <i class="fa-solid text-indigo-500 fa-building-columns bg-indigo-50 p-1.5 rounded-full"></i>
+      </div>
+      <div class="text-xl font-bold" id="kpi-varcevanje">160,00 €</div>
       <div class="text-xs text-gray-400 mt-1">na varčevalni račun</div>
     </div>
   </div>
@@ -52,9 +67,9 @@
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2 space-y-6">
       <div class="flex gap-2">
-        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium">Kartica</button>
-        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium">Gotovina</button>
-        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium">Fiksni</button>
+        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium hover:bg-gray-50">Kartica</button>
+        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium hover:bg-gray-50">Gotovina</button>
+        <button class="px-4 py-1.5 bg-white rounded-full border border-gray-200 text-sm font-medium hover:bg-gray-50">Fiksni</button>
       </div>
 
       <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm min-h-[140px] flex flex-col justify-between">
@@ -70,7 +85,10 @@
 
     <!-- Desni stolpec -->
     <div class="space-y-6">
-      <button class="w-full bg-slate-900 text-white font-medium py-2.5 rounded-xl shadow">+ Prihodek</button>
+      <!-- Gumb za spreminjanje prihodka -->
+      <button onclick="openPrihodekModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl shadow transition duration-150">
+        + Prihodek
+      </button>
 
       <!-- Tedenski budget -->
       <div class="bg-indigo-50/50 p-5 rounded-2xl border border-indigo-100 space-y-4">
@@ -79,15 +97,15 @@
           <span class="bg-white px-2 py-0.5 rounded shadow-sm text-gray-500">Dan plače: 16.</span>
         </div>
         <div>
-          <div class="text-2xl font-bold text-gray-900">335,63 €</div>
+          <div class="text-2xl font-bold text-gray-900" id="tedenski-budget">335,63 €</div>
           <p class="text-xs text-gray-500 mt-1">Naslednji dvig: pet, 28. avg.</p>
         </div>
         <div class="w-full bg-gray-200 h-1.5 rounded-full overflow-hidden">
-          <div class="bg-indigo-600 h-full w-[0%]"></div>
+          <div class="bg-indigo-600 h-full w-[0%]" id="progress-bar"></div>
         </div>
         <div class="flex justify-between text-xs text-gray-500 font-medium">
-          <span>Porabljeno: 0,00 €</span>
-          <span>Ostane: 1342,52 €</span>
+          <span id="porabljeno-text">Porabljeno: 0,00 €</span>
+          <span id="ostane-text">Ostane: 1.342,52 €</span>
         </div>
       </div>
 
@@ -115,6 +133,85 @@
       </div>
     </div>
   </div>
+
+  <!-- POPUP MODAL ZA VNOS PRIHODKA -->
+  <div id="prihodek-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4">
+      <h3 class="text-lg font-bold text-gray-900">Vnesite prihodek</h3>
+      <p class="text-xs text-gray-500">Vnesite nov mesečni znesek prihodka v evrih (€).</p>
+      
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Znesek prihodka (€)</label>
+        <input type="number" id="prihodek-input" step="0.01" class="w-full p-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-slate-900 focus:outline-none text-lg font-semibold" placeholder="2000.00">
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="closePrihodekModal()" class="w-1/2 py-2 border border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-50">Prekliči</button>
+        <button onclick="savePrihodek()" class="w-1/2 py-2 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800">Shrani</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIKA -->
+  <script>
+    // Začetna stanja (če še ni shranjenih v localStorage)
+    let prihodek = parseFloat(localStorage.getItem('prihodek')) || 2000.00;
+    let fiksniStroski = 497.48;
+    let poraba = 0.00;
+
+    function formatEUR(val) {
+      return val.toLocaleString('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    }
+
+    function pracerunajProracun() {
+      // Formule
+      let prihranek = prihodek - fiksniStroski - poraba;
+      let varcevanje = prihodek * 0.08;
+      let pctPrihranek = prihodek > 0 ? Math.round((prihranek / prihodek) * 100) : 0;
+      
+      let razpolozljivoZaTedenski = prihranek - varcevanje;
+      let tedenskiBudget = razpolozljivoZaTedenski / 4;
+      let ostaneZaPorabo = razpolozljivoZaTedenski - poraba;
+
+      // Osvežitev prikaza na strani
+      document.getElementById('kpi-prihodek').innerText = formatEUR(prihodek);
+      document.getElementById('kpi-fiksni').innerText = formatEUR(fiksniStroski);
+      document.getElementById('kpi-poraba').innerText = formatEUR(poraba);
+      document.getElementById('kpi-prihranek').innerText = formatEUR(prihranek);
+      document.getElementById('kpi-prihranek-pct').innerText = pctPrihranek + ' % prihodka';
+      document.getElementById('kpi-varcevanje').innerText = formatEUR(varcevanje);
+
+      document.getElementById('tedenski-budget').innerText = formatEUR(tedenskiBudget);
+      document.getElementById('porabljeno-text').innerText = 'Porabljeno: ' + formatEUR(poraba);
+      document.getElementById('ostane-text').innerText = 'Ostane: ' + formatEUR(ostaneZaPorabo);
+    }
+
+    function openPrihodekModal() {
+      document.getElementById('prihodek-input').value = prihodek;
+      document.getElementById('prihodek-modal').classList.remove('hidden');
+      document.getElementById('prihodek-modal').classList.add('flex');
+    }
+
+    function closePrihodekModal() {
+      document.getElementById('prihodek-modal').classList.add('hidden');
+      document.getElementById('prihodek-modal').classList.remove('flex');
+    }
+
+    function savePrihodek() {
+      let inputVal = parseFloat(document.getElementById('prihodek-input').value);
+      if (!isNaN(inputVal) && inputVal >= 0) {
+        prihodek = inputVal;
+        localStorage.setItem('prihodek', prihodek);
+        pracerunajProracun();
+        closePrihodekModal();
+      } else {
+        alert('Prosimo, vnesite veljavno število.');
+      }
+    }
+
+    // Zaženi izračun ob nalaganju strani
+    pracerunajProracun();
+  </script>
 
 </body>
 </html>
