@@ -237,35 +237,32 @@
       return `proracun_${trenutniUporabnik}_${leto}_${mesec}`;
     }
 
-    function naloziPodatkeObdobja() {
-      let kljuc = vrniKljucShrambe();
-      let shranjeno = localStorage.getItem(kljuc);
-      
-      if (shranjeno) {
-        podatki = JSON.parse(shranjeno);
-      } else {
-        podatki = { prihodki: [], fiksniStroski: [], kartica: [], gotovina: [], steviloDvigov: 4 };
-      }
-      izracunajVse();
-    }
+function naloziPodatkeObdobja() {
+  let kljuc = vrniKljucShrambe();
+  let shranjeno = localStorage.getItem(kljuc);
+  
+  if (shranjeno) {
+    podatki = JSON.parse(shranjeno);
+    // Če v obstoječih podatkih še ni izbire, nastavimo privzeto 4
+    if (!podatki.steviloDvigov) podatki.steviloDvigov = 4;
+  } else {
+    podatki = { prihodki: [], fiksniStroski: [], kartica: [], gotovina: [], steviloDvigov: 4 };
+  }
 
-    function zamenjajObdobje() {
-      naloziPodatkeObdobja();
-    }
+  // Nastavimo vrednost v padajočem meniju glede na shranjene podatke
+  const selectElem = document.getElementById('stevilo-dvigov');
+  if (selectElem) {
+    selectElem.value = podatki.steviloDvigov;
+  }
 
-    function shraniPodatkeObdobja() {
-      let kljuc = vrniKljucShrambe();
-      localStorage.setItem(kljuc, JSON.stringify(podatki));
-    }
+  izracunajVse();
+}
 
-    function formatEUR(val) {
-      return val.toLocaleString('sl-SI', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
-    }
-
-    function izracunajVse() {
-  // Prisotna pretvorba v število (parseInt)
-  let stDvigov = parseInt(podatki.steviloDvigov, 10) || 4;
-  document.getElementById('stevilo-dvigov').value = stDvigov;
+function izracunajVse() {
+  // Preberemo vrednost neposredno iz padajočega menija ali iz objekta podatki
+  let selectElem = document.getElementById('stevilo-dvigov');
+  let stDvigov = selectElem ? parseInt(selectElem.value, 10) : (parseInt(podatki.steviloDvigov, 10) || 4);
+  podatki.steviloDvigov = stDvigov;
 
   let skupajPrihodek = podatki.prihodki.reduce((sum, item) => sum + item.znesek, 0);
   let skupajFiksni = podatki.fiksniStroski.reduce((sum, item) => sum + item.znesek, 0);
@@ -277,12 +274,10 @@
   let prihranek = skupajPrihodek - skupajFiksni - skupajPoraba;
   let pctPrihranek = skupajPrihodek > 0 ? Math.round((prihranek / skupajPrihodek) * 100) : 0;
 
-  // Izračun razpoložljivega zneska in deljenje s številom dvigov (4 ali 5)
   let razpolozljivaPoraba = skupajPrihodek - skupajFiksni - varcevanje8;
   let tedenskiBudget = razpolozljivaPoraba > 0 ? (razpolozljivaPoraba / stDvigov) : 0;
   let ostaneZaPorabo = razpolozljivaPoraba - skupajPoraba;
 
-  // Osveževanje prikaza v KPI karticah
   document.getElementById('kpi-prihodek').innerText = formatEUR(skupajPrihodek);
   document.getElementById('kpi-fiksni').innerText = formatEUR(skupajFiksni);
   document.getElementById('kpi-poraba').innerText = formatEUR(skupajPoraba);
@@ -290,13 +285,12 @@
   document.getElementById('kpi-prihranek-pct').innerText = pctPrihranek + ' % prihodka';
   document.getElementById('kpi-varcevanje').innerText = formatEUR(varcevanje8);
 
-  // Osveževanje prikaza v tedenskem budgetu
+  // Posodobitev prikaza tedenskega zneska
   document.getElementById('tedenski-budget').innerText = formatEUR(tedenskiBudget);
   document.getElementById('opis-dviga').innerText = 'Razpoložljivo na dvig (' + stDvigov + 'x v mesecu)';
   document.getElementById('porabljeno-text').innerText = 'Porabljeno: ' + formatEUR(skupajPoraba);
   document.getElementById('ostane-text').innerText = 'Ostane: ' + formatEUR(ostaneZaPorabo);
 
-  // Posodobitev vrstice napredka (Progress Bar)
   let napredekPct = razpolozljivaPoraba > 0 ? Math.min(Math.round((skupajPoraba / razpolozljivaPoraba) * 100), 100) : 0;
   let progressBar = document.getElementById('progress-bar');
   if (progressBar) {
